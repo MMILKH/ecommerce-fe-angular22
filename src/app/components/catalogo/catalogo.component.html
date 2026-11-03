@@ -1,0 +1,17 @@
+<div class="container my-4">
+  <h2 class="mb-4">Catalogo Prodotti</h2>
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    @for (p of prodotti; track p.id) {
+      <div class="col">
+        <app-prodotto-card [prodotto]="p"></app-prodotto-card>
+      </div>
+    } @empty {
+      <div class="col-12">
+        <div class="alert alert-info">
+          Nessun prodotto disponibile al momento.
+        </div>
+      </div>
+    }
+  </div>
+</div>
