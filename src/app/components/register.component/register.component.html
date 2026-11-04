@@ -1,0 +1,83 @@
+<div class="bg-light min-vh-100 d-flex flex-column justify-content-center align-items-center">
+  <div style="width: 100%; max-width: 400px;">
+
+    <h2 class="text-center mb-4">Registrati</h2>
+    <div class="card border p-4 bg-white">
+      
+      <form (ngSubmit)="onSubmit()">
+        
+        <div class="mb-3">
+          <label class="form-label" for="nome">Nome</label>
+          <input
+            class="form-control"
+            id="nome"
+            name="nome"
+            [(ngModel)]="registerData.nome"
+            required
+          />
+        </div>
+
+
+        <div class="mb-3">
+          <label class="form-label" for="cognome">Cognome</label>
+          <input
+            class="form-control"
+            id="cognome"
+            name="cognome"
+            [(ngModel)]="registerData.cognome"
+            required
+          />
+        </div>
+
+        
+        <div class="mb-3">
+          <label class="form-label" for="email">Email</label>
+          <input
+            class="form-control"
+            type="email"
+            id="email"
+            name="email"
+            [(ngModel)]="registerData.email"
+            autocapitalize="off"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+
+
+        
+        <div class="mb-3">
+          <label class="form-label" for="password">Password</label>
+          <input
+            class="form-control"
+            type="password"
+            id="password"
+            name="password"
+            [(ngModel)]="registerData.password"
+            autocapitalize="off"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+
+       
+        <button class="btn btn-dark w-100" type="submit">Registrati</button>
+
+        
+        <div class="text-center mt-3">
+          <span class="small text-muted d-block mb-2">Hai già un account?</span>
+          <a routerLink="/user/login" class="btn btn-outline-dark btn-sm w-100">Accedi</a>
+        </div>
+      </form>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger mt-3 mb-0 py-2 small" role="alert">
+          {{ errorMessage }}
+        </div>
+      }
+
+    </div>
+  </div>
+</div>

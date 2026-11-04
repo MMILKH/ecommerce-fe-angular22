@@ -1,18 +1,18 @@
 {
   "products": [
     {
-      "id": 1,
+      "id": "1",
       "nome": "Smartphone Pro Max",
       "descrizioneBreve": "Schermo OLED 6.7 pollici, 256GB storage",
       "prezzo": 999.99,
-      "categoria": "Elettronica"
+      "categoria": "elettronica"
     },
     {
-      "id": 2,
+      "id": "2",
       "nome": "Cuffie Wireless Noise Cancelling",
       "descrizioneBreve": "Autonomia 30 ore con cancellazione del rumore",
-      "prezzo": 199.50,
-      "categoria": "Elettronica"
+      "prezzo": 199.5,
+      "categoria": "elettronica"
     }
   ],
   "cart": {
@@ -27,7 +27,7 @@
           "nome": "Smartphone Pro Max",
           "descrizioneBreve": "Schermo OLED 6.7 pollici, 256GB storage",
           "prezzo": 999.99,
-          "categoria": "Elettronica"
+          "categoria": "elettronica"
         },
         "quantita": 2
       },
@@ -37,11 +37,28 @@
           "id": 2,
           "nome": "Cuffie Wireless Noise Cancelling",
           "descrizioneBreve": "Autonomia 30 ore con cancellazione del rumore",
-          "prezzo": 199.50,
-          "categoria": "Elettronica"
+          "prezzo": 199.5,
+          "categoria": "elettronica"
         },
         "quantita": 1
       }
     ]
-  }
+  },
+  "users": [
+    {
+      "id": "1",
+      "email": "mario.rossi@gmail.com",
+      "password": "password123",
+      "nome": "Mario",
+      "cognome": "Rossi"
+    },
+    {
+      "email": "ilpipo@gmail.com",
+      "password": "funziona",
+      "nome": "Manco",
+      "cognome": "per",
+      "id": "06hxzTNWt4Y"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

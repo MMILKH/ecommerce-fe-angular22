@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProdottoDto } from '../../models/prodotto.model';
 
@@ -10,7 +10,15 @@ export class ProdottoService {
   private http = inject(HttpClient);
   private url = 'http://localhost:3000/products';
 
-  getProdotti(): Observable<ProdottoDto[]> {
+ getProdotti(categoria?: string): Observable<ProdottoDto[]> {
+
+  if (!categoria || categoria.trim() === '') {
     return this.http.get<ProdottoDto[]>(this.url);
   }
+
+  const params = new HttpParams().set('categoria', categoria.trim());
+  return this.http.get<ProdottoDto[]>(this.url, { params });
+}
+
+  
 }

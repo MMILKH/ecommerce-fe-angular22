@@ -1,4 +1,4 @@
-import { RigaCarrelloDto } from './riga-carrello.model';
+import { RigaCarrelloDto } from './rigaCarrello.model';
 
 export interface CarrelloDto {
   id: number;
