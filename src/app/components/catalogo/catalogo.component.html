@@ -1,17 +1,54 @@
 <div class="container my-4">
-  <h2 class="mb-4">Catalogo Prodotti</h2>
+  <h1 class="mb-4">Catalogo Prodotti</h1>
 
-  <div class="row row-cols-1 row-cols-md-3 g-4">
-    @for (p of prodotti; track p.id) {
-      <div class="col">
-        <app-prodotto-card [prodotto]="p"></app-prodotto-card>
-      </div>
-    } @empty {
-      <div class="col-12">
-        <div class="alert alert-info">
-          Nessun prodotto disponibile al momento.
+  <div class="row">
+    
+    <div class="col-lg-8">
+      
+      
+      <div class="mb-4 p-3 border bg-white rounded shadow-sm">
+        <div class="d-flex gap-2">
+          <select class="form-select form-select-sm">
+            <option value="">Tutti i prodotti</option>
+            <option value="Elettronica">Elettronica</option>
+            <option value="Abbigliamento">Abbigliamento</option>
+            <option value="Accessori">Accessori</option>
+          </select>
+          <button class="btn btn-dark btn-sm">Filtra</button>
         </div>
       </div>
-    }
+
+      
+      @for (p of prodotti; track p.id) {
+        <app-prodotto-card 
+          [prodotto]="p" 
+          (aggiungi)="onAggiungiAlCarrello($event)">
+        </app-prodotto-card>
+      } @empty {
+        <div class="alert alert-info">Nessun prodotto disponibile.</div>
+      }
+
+    </div>
+
+    
+    <div class="col-lg-4">
+      <div class="p-4 border bg-white rounded shadow-sm">
+        <h3>Carrello</h3>
+      @if (authService.currentUser()) {
+       
+        <a routerLink="/cart" class="btn btn-warning w-100 fw-bold">
+               Vai al Carrello
+              </a>
+            
+          } @else {
+
+              <a routerLink="/user/login" class="btn btn-warning w-100 fw-bold">
+              Accedi per visualizzare il carrello.
+              </a>
+              
+          }
+      
+      </div>
+    </div>
   </div>
 </div>

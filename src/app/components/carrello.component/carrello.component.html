@@ -1,1 +1,71 @@
-<p>carrello.component works!</p>
+<div class="container my-4">
+  <h1 class="mb-4">Carrello Acquisti</h1>
+
+  <div class="row">
+    <!-- Colonna Sinistra: Lista delle righe carrello -->
+    <div class="col-lg-8">
+      @for (riga of righe; track riga.id) {
+        <div class="card mb-3 p-3 shadow-sm">
+          <div class="row align-items-center">
+            
+            <!-- Dettagli Prodotto -->
+            <div class="col-md-7">
+              <h3 class="h4 mb-1">{{ riga.prodotto.nome }}</h3>
+              <p class="text-muted mb-1">{{ riga.prodotto.descrizioneBreve }}</p>
+              <p class="fw-bold fs-5 text-primary mb-0">€ {{ riga.prodotto.prezzo }}</p>
+            </div>
+
+            <!-- Azioni: Modifica quantità e Rimuovi -->
+            <div class="col-md-5 text-md-end mt-3 mt-md-0">
+              
+              <!-- Form Aggiorna Quantità -->
+              <div class="d-inline-flex align-items-center gap-2 mb-2">
+                <input 
+                  type="number" 
+                  [(ngModel)]="riga.quantita" 
+                  min="1" 
+                  max="99"
+                  class="form-control form-control-sm text-center" 
+                  style="width: 60px;"
+                />
+                <button 
+                  type="button" 
+                  (click)="onAggiornaQuantita(riga)" 
+                  class="btn btn-outline-secondary btn-sm">
+                  Aggiorna
+                </button>
+              </div>
+
+              <!-- Pulsante Rimuovi -->
+              <div class="d-inline ms-2">
+                <button 
+                  type="button" 
+                  (click)="onRimuoviRiga(riga.id)" 
+                  class="btn btn-outline-danger btn-sm">
+                  Rimuovi
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      } @empty {
+        <div class="alert alert-info">Il carrello è vuoto.</div>
+      }
+    </div>
+
+    <!-- Colonna Destra: Solo Riepilogo Totale -->
+    <div class="col-lg-4">
+      <div class="p-4 border bg-white rounded shadow-sm">
+        <h3 class="h4 mb-3">Riepilogo</h3>
+        <hr />
+        
+        <div class="d-flex justify-content-between align-items-center">
+          <span class="fs-5">Totale:</span>
+          <span class="fw-bold fs-4 text-success">€ {{ calcolaTotale() }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

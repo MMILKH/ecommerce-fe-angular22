@@ -1,16 +1,39 @@
-<div class="card h-100 shadow-sm">
-  <div class="card-body d-flex flex-column">
-    <h5 class="card-title">{{ prodotto.nome }}</h5>
-    <p class="card-text text-muted flex-grow-1">{{ prodotto.descrizioneBreve }}</p>
+<div class="card mb-3 p-3 shadow-sm">
+  <div class="row align-items-center">
     
-    <div class="mt-auto">
-      <p class="fs-5 fw-bold text-primary mb-2">€{{ prodotto.prezzo }}</p>
+  
+    <div class="col-md-7">
+      <h3 class="h4 mb-1">{{ prodotto.nome }}</h3>
+      <p class="text-muted mb-2">{{ prodotto.descrizioneBreve }}</p>
+      <p class="fw-bold fs-5 text-primary mb-0">€ {{ prodotto.prezzo }}</p>
+    </div>
 
-      @if (quantita !== undefined) {
-        <span class="badge bg-secondary mb-2">Quantità: {{ quantita }}</span>
-      } @else {
-        <button class="btn btn-primary w-100">Aggiungi al Carrello</button>
+  
+    <div class="col-md-5 text-md-end mt-3 mt-md-0">
+      @if (mostraAggiungi) {
+        <div class="d-inline-flex gap-2 align-items-center justify-content-md-end">
+          
+        
+          <input 
+            type="number" 
+            [(ngModel)]="quantita" 
+            min="1" 
+            max="99"
+            class="form-control form-control-sm text-center" 
+            style="width: 70px;"
+          />
+
+      
+          <button 
+            type="button" 
+            (click)="onAggiungi()" 
+            class="btn btn-primary btn-sm d-flex align-items-center gap-1">
+            Aggiungi
+          </button>
+
+        </div>
       }
     </div>
+
   </div>
 </div>

@@ -28,19 +28,20 @@ export class AuthService {
 
   
   private setCurrentUser(user: User): void {
-    localStorage.setItem('currentUser', JSON.stringify(user));
+    sessionStorage.setItem('currentUser', JSON.stringify(user));
+    //localStorage.setItem('currentUser', JSON.stringify(user));
     this.currentUserSignal.set(user); 
   }
 
 
   private getUserFromStorage(): User | null {
-    const savedUser = localStorage.getItem('currentUser');
+    const savedUser = sessionStorage.getItem('currentUser');
     return savedUser ? JSON.parse(savedUser) : null;
   }
 
   
   logout(): void {
-    localStorage.removeItem('currentUser');
+    sessionStorage.removeItem('currentUser');
     this.currentUserSignal.set(null);
   }
 }

@@ -1,13 +1,14 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { ProdottoService } from '../../services/prodotto/prodotto.service';
 import { ProdottoDto } from '../../models/prodotto.model';
 import { ProdottoCardComponent } from '../prodotto-card/prodotto-card.component';
+import { AuthService } from '../../services/user/login.service';
 
 @Component({
   selector: 'app-catalogo',
   standalone: true,
-  imports: [ProdottoCardComponent],
+  imports: [ProdottoCardComponent,RouterLink],
   templateUrl: './catalogo.component.html',
   styleUrl: './catalogo.css'
 })
@@ -15,6 +16,7 @@ export class CatalogoComponent implements OnInit {
   private prodottoService = inject(ProdottoService);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
+  private authService = inject(AuthService);
 
   prodotti: ProdottoDto[] = [];
 
@@ -32,4 +34,8 @@ export class CatalogoComponent implements OnInit {
       });
     });
   }
+  onAggiungiAlCarrello(event: { prodotto: ProdottoDto; quantita: number }): void {
+  console.log(`Aggiunti ${event.quantita} pezzi di ${event.prodotto.nome} al carrello`);
+
+}
 }
