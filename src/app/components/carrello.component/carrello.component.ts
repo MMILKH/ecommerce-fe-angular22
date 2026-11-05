@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule,Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
 import { CarrelloService } from '../../services/carrello/carrello.service';
 import { AuthService } from '../../services/user/login.service';
 import { RigaCarrelloDto } from '../../models/rigaCarrello.model';
@@ -18,12 +18,18 @@ export class CarrelloComponent implements OnInit {
   private authService = inject(AuthService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
+  private location=inject(Location);
+  private route = inject(ActivatedRoute);
 
   righe: RigaCarrelloDto[] = [];
 
   ngOnInit(): void {
+
+    if (Object.keys(this.route.snapshot.queryParams).length > 0) {
+      this.location.replaceState('/cart');
+    }
     if (this.authService.currentUser()) {
-      this.carrelloService.getcart().subscribe({
+      this.carrelloService.getcart(this.authService.currentUser()!.id).subscribe({
         next: (data) => {
           this.righe = data.righe;
           this.cdr.detectChanges();

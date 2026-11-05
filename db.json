@@ -15,49 +15,73 @@
       "categoria": "elettronica"
     }
   ],
-  "cart": {
-    "id": 1,
-    "stato": "NEW",
-    "dataCreazione": "2026-03-30T10:15:00",
-    "righe": [
-      {
-        "id": 101,
-        "prodotto": {
-          "id": 1,
-          "nome": "Smartphone Pro Max",
-          "descrizioneBreve": "Schermo OLED 6.7 pollici, 256GB storage",
-          "prezzo": 999.99,
-          "categoria": "elettronica"
+  "cart": [
+    {
+      "id": "1",
+      "stato": "NEW",
+      "userId": 1,
+      "dataCreazione": "2026-03-30T10:15:00",
+      "righe": [
+        {
+          "id": 101,
+          "prodotto": {
+            "id": 1,
+            "nome": "Smartphone Pro Max",
+            "descrizioneBreve": "Schermo OLED 6.7 pollici, 256GB storage",
+            "prezzo": 999.99,
+            "categoria": "elettronica"
+          },
+          "quantita": 5
         },
-        "quantita": 2
-      },
-      {
-        "id": 102,
-        "prodotto": {
-          "id": 2,
-          "nome": "Cuffie Wireless Noise Cancelling",
-          "descrizioneBreve": "Autonomia 30 ore con cancellazione del rumore",
-          "prezzo": 199.5,
-          "categoria": "elettronica"
-        },
-        "quantita": 1
-      }
-    ]
-  },
+        {
+          "id": 102,
+          "prodotto": {
+            "id": 2,
+            "nome": "Cuffie Wireless Noise Cancelling",
+            "descrizioneBreve": "Autonomia 30 ore con cancellazione del rumore",
+            "prezzo": 199.5,
+            "categoria": "elettronica"
+          },
+          "quantita": 1
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "stato": "NEW",
+      "userId": 2,
+      "dataCreazione": "2026-03-30T10:15:00",
+      "righe": [
+        {
+          "id": 1793893183656,
+          "prodotto": {
+            "id": "1",
+            "nome": "Smartphone Pro Max",
+            "descrizioneBreve": "Schermo OLED 6.7 pollici, 256GB storage",
+            "prezzo": 999.99,
+            "categoria": "elettronica"
+          },
+          "quantita": 3
+        }
+      ]
+    }
+  ],
   "users": [
     {
       "id": "1",
       "email": "mario.rossi@gmail.com",
       "password": "password123",
       "nome": "Mario",
-      "cognome": "Rossi"
+      "cognome": "Rossi",
+      "ruolo": "admin"
     },
     {
       "email": "ilpipo@gmail.com",
       "password": "funziona",
       "nome": "Manco",
       "cognome": "per",
-      "id": "06hxzTNWt4Y"
+      "id": "2",
+      "ruolo": "customer"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

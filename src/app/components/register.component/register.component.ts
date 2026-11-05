@@ -41,7 +41,5 @@ registerData: RegisterRequestDto = {
     }
   });
 
-
-
 }
 }

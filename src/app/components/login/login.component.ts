@@ -34,7 +34,12 @@ export class LoginComponent {
       next: (utenti) => {
         if (utenti.length > 0) {
           console.log('Login effettuato con successo:', utenti[0]);
-          this.router.navigate(['/products/catalog']);
+          if (utenti[0].ruolo ==='admin'){
+            this.router.navigate(['/admin/user']);
+          }
+          else{
+            this.router.navigate(['/products/catalog']);
+          }
         } else {
           console.log('Email o password errate')
           this.errorMessage = 'Email o password errate.';

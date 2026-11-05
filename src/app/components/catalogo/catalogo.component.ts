@@ -4,6 +4,8 @@ import { ProdottoService } from '../../services/prodotto/prodotto.service';
 import { ProdottoDto } from '../../models/prodotto.model';
 import { ProdottoCardComponent } from '../prodotto-card/prodotto-card.component';
 import { AuthService } from '../../services/user/login.service';
+import { CarrelloService } from '../../services/carrello/carrello.service';
+import { RigaCarrelloDto } from '../../models/rigaCarrello.model';
 
 @Component({
   selector: 'app-catalogo',
@@ -14,11 +16,13 @@ import { AuthService } from '../../services/user/login.service';
 })
 export class CatalogoComponent implements OnInit {
   private prodottoService = inject(ProdottoService);
+  private carrelloService = inject(CarrelloService);
   private route = inject(ActivatedRoute);
   private cdr = inject(ChangeDetectorRef);
   private authService = inject(AuthService);
-
   prodotti: ProdottoDto[] = [];
+ 
+  errorMessage : string = "";
 
   ngOnInit(): void {
   
@@ -34,8 +38,22 @@ export class CatalogoComponent implements OnInit {
       });
     });
   }
-  onAggiungiAlCarrello(event: { prodotto: ProdottoDto; quantita: number }): void {
-  console.log(`Aggiunti ${event.quantita} pezzi di ${event.prodotto.nome} al carrello`);
+  onAggiungiAlCarrello(data:{prodotto: ProdottoDto; quantita:number}): void {
 
-}
-}
+    const rigaNew : RigaCarrelloDto = {
+      prodotto: data.prodotto,
+      quantita: data.quantita
+    }
+
+    this.carrelloService.addFromcatalog(rigaNew ,this.authService.currentUser()!.id).subscribe({
+      next: (rigaCarrello) => {
+      console.log('Aggiunta la riga con successo :', rigaCarrello);
+    },
+    error: (err) => {
+      console.error('Errore durante la registrazione:', err);
+      this.errorMessage = "Errore non è stato possibile registrare l'utente";
+    }
+
+    
+})
+}}
