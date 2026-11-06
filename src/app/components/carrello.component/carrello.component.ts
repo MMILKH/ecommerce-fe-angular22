@@ -5,6 +5,7 @@ import { Router,ActivatedRoute } from '@angular/router';
 import { CarrelloService } from '../../services/carrello/carrello.service';
 import { AuthService } from '../../services/user/login.service';
 import { RigaCarrelloDto } from '../../models/rigaCarrello.model';
+import { CarrelloDto } from '../../models/carrello.model';
 
 @Component({
   selector: 'app-carrello',
@@ -22,6 +23,12 @@ export class CarrelloComponent implements OnInit {
   private route = inject(ActivatedRoute);
 
   righe: RigaCarrelloDto[] = [];
+  
+  checkoutData = {
+    indirizzoSpedizione: '',
+    indirizzoFatturazione: ''
+  };
+  
 
   ngOnInit(): void {
 
@@ -52,4 +59,25 @@ export class CarrelloComponent implements OnInit {
   onRimuoviRiga(rigaId: number): void {
     console.log(`Rimuovi riga con ID ${rigaId}`);
   }
-}
+
+  onCheckout(): void {
+    const userId = this.authService.currentUser()!.id;
+
+    this.carrelloService.getcart(userId).subscribe({
+      next: (carrello) => {
+
+        const idOrdine = crypto.randomUUID();
+        
+        const riepilogoOrdine = {
+          id : idOrdine, 
+          carrello: carrello,
+          totale: this.calcolaTotale(),
+          indirizzoSpedizione: this.checkoutData.indirizzoSpedizione,
+          indirizzoFatturazione: this.checkoutData.indirizzoFatturazione || this.checkoutData.indirizzoSpedizione
+        };
+
+        console.log('Checkout effettuato con successo:', riepilogoOrdine);
+      },
+      error: (err) => console.error('Errore durante il recupero del carrello:', err)
+    });
+  }}

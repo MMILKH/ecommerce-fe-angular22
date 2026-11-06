@@ -62,6 +62,39 @@
           <span class="fw-bold fs-4 text-success">€ {{ calcolaTotale() }}</span>
         </div>
       </div>
-    </div>
+      <div class="p-4 border bg-white rounded shadow-sm">
+        <form (ngSubmit)="onCheckout()">
+          
+          <div class="mb-3">
+            <label class="form-label fw-bold" for="indirizzoS">Indirizzo di Spedizione</label>
+            <input 
+              class="form-control" 
+              type="text" 
+              id="indirizzoS" 
+              name="indirizzoSpedizione" 
+              [(ngModel)]="checkoutData.indirizzoSpedizione" 
+              required
+            />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label fw-bold" for="indirizzoF">Indirizzo di Fatturazione</label>
+            <input 
+              class="form-control" 
+              type="text" 
+              id="indirizzoF" 
+              name="indirizzoFatturazione" 
+              [(ngModel)]="checkoutData.indirizzoFatturazione"
+            />
+          </div>
+
+          <button 
+            type="submit" 
+            class="btn btn-success w-100 fw-bold text-light">
+            Conferma Ordine
+          </button>
+        </form>
+      </div>
+    
   </div>
 </div>

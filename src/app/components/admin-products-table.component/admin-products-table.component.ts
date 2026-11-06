@@ -1,12 +1,14 @@
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { GenericTableComponent } from '../generic-table.component/generic-table.component';
 import { AdminServices } from '../../services/admin/admin.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router,RouterLink } from '@angular/router';
 import { AuthService } from '../../services/user/login.service';
 import { ProdottoDto } from '../../models/prodotto.model';
+import { FiltroProdotto } from '../../models/filtroProdotto.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  imports: [GenericTableComponent],
+  imports: [GenericTableComponent,FormsModule,RouterLink],
   selector: 'app-admin-Products-table',
   standalone: true,
   styleUrl: './admin-Products-table.component.css',
@@ -15,6 +17,7 @@ import { ProdottoDto } from '../../models/prodotto.model';
 export class AdminProductsTableComponent implements OnInit {
 private adminService = inject( AdminServices);
   private cdr = inject(ChangeDetectorRef);
+  private route = inject(ActivatedRoute);
   private authService = inject(AuthService);
   private router = inject(Router);
   row:ProdottoDto[]=[];
@@ -28,11 +31,25 @@ private adminService = inject( AdminServices);
   
   ];
 
+  filtri : FiltroProdotto = {
+    id : '',
+    nome: '',
+    descrizioneBreve: '',
+    categoria: '',
+
+  }
   
 
   ngOnInit(): void {
     if (this.authService.currentUser()?.ruolo==="admin"){
-    this.adminService.getProducts().subscribe({
+
+
+    this.route.queryParamMap.subscribe(params =>{
+      this.filtri.id = params.get ('id') || '';
+      this.filtri.nome = params.get('nome') || '';
+      this.filtri.descrizioneBreve = params.get('descrizioneBreve') || '';
+      this.filtri.categoria = params.get('categoria') || '';
+      this.adminService.getProducts(this.filtri).subscribe({
       
       next: (response)=>{
         this.row = response;
@@ -41,10 +58,28 @@ private adminService = inject( AdminServices);
       error: (err)=>console.error('non è stato possibile recuperare gli utenti',err)
       
     });
+    }
+
+    )
+    
   } else{
     this.router.navigate(['/user/login']);
   }
 
+  }
+
+  onRicerca(): void {
+    this.router.navigate([], {
+    relativeTo: this.route,
+    queryParams: { nome: this.filtri.nome || null, descrizioneBreve: this.filtri.descrizioneBreve || null,
+       categoria: this.filtri.categoria || null, id: this.filtri.id || null, },
+    queryParamsHandling: 'merge'
+  });
+  }
+
+  onReset(): void {
+    this.filtri = { nome: '', descrizioneBreve: '',categoria: '', id: '' };
+    this.onRicerca();
   }
   
 }

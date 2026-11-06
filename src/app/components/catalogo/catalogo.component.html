@@ -8,14 +8,16 @@
       
       <div class="mb-4 p-3 border bg-white rounded shadow-sm">
         <div class="d-flex gap-2">
-          <select class="form-select form-select-sm">
-            <option value="">Tutti i prodotti</option>
-            <option value="Elettronica">Elettronica</option>
-            <option value="Abbigliamento">Abbigliamento</option>
-            <option value="Accessori">Accessori</option>
-          </select>
-          <button class="btn btn-dark btn-sm">Filtra</button>
-        </div>
+  <select [(ngModel)]="categoria" class="form-select form-select-sm">
+    <option value="">Tutti i prodotti</option>
+    <option value="elettronica">Elettronica</option>
+    <option value="abbigliamento">Abbigliamento</option>
+    <option value="accessori">Accessori</option>
+  </select>
+  <button type="button" (click)="onSetFilter()" class="btn btn-dark btn-sm">
+    Filtra
+  </button>
+</div>
       </div>
       
 

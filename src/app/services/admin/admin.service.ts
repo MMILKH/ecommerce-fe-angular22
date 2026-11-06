@@ -4,10 +4,16 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
 import { AuthService } from '../user/login.service';
 import { ProdottoDto } from '../../models/prodotto.model';
+import { FiltroUtente } from '../../models/filtroUtente.model';
+import { FiltroProdotto } from '../../models/filtroProdotto.model';
 
 @Injectable({
   providedIn: 'root'
 })
+
+
+
+
 export class AdminServices {
     private http = inject(HttpClient);
     private urlUser = 'http://localhost:3000/users';
@@ -15,10 +21,42 @@ export class AdminServices {
     
 
 
-    getUser(): Observable<User[]>{
-        return this.http.get<User[]>(this.urlUser);
+  getUser(filtri: FiltroUtente): Observable<User[]> {
+  let params: any = {};
+
+    if (filtri.nome?.trim()){ 
+      params['nome'] = filtri.nome.trim();
     }
-    getProducts(): Observable<ProdottoDto[]>{
-        return this.http.get<ProdottoDto[]>(this.urlProducts);
+    if (filtri.cognome?.trim()){
+      params['cognome'] = filtri.cognome.trim();
+    } 
+    if (filtri.email?.trim()) {
+    params['email'] = filtri.email.trim();}
+    if (filtri.ruolo?.trim()){
+       params['ruolo'] = filtri.ruolo.trim();}
+  
+
+  return this.http.get<User[]>(`${this.urlUser}`, { params });
+}
+
+
+    getProducts(filtri: FiltroProdotto): Observable<ProdottoDto[]>{
+        let params: any = {};
+
+    if (filtri.nome?.trim()){ 
+      params['nome'] = filtri.nome.trim();
+    }
+    if (filtri.descrizioneBreve?.trim()){
+      params['descrizioneBreve'] = filtri.descrizioneBreve.trim();
+    } 
+    if (filtri.id?.trim()) {
+    params['id'] = filtri.id.trim();
+  }
+
+    if (filtri.categoria?.trim()){
+       params['categoria'] = filtri.categoria.trim();}
+  
+
+    return this.http.get<ProdottoDto[]>(`${this.urlProducts}`, { params });
     }
 }

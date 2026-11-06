@@ -1,4 +1,81 @@
 <div class="container my-4">
-  <h2>Gestione Utenti</h2>
-<app-generic-table [data]="row" [columns]="columns"></app-generic-table>
+  <h2 class="mb-4">Gestione Utenti Admin</h2>
+    <div>
+  <a routerLink="/admin/products" class="btn btn-sm btn-dark my-4">
+               Vai alla gestione dei prodotti
+              </a>
+            </div>
+  
+  <div class="card p-3 mb-4 bg-light shadow-sm">
+    <h5 class="card-title h6 mb-3">Filtra per colonna:</h5>
+    
+    <form (submit)="onRicerca()"   class="row g-3">
+      
+      <div class="col-md-3">
+        <label for="filtroNome" class="form-label small fw-bold">Nome</label>
+        <input 
+          type="text" 
+          id="filtroNome"
+          class="form-control form-control-sm" 
+          placeholder="Cerca nome..." 
+          [(ngModel)]="filtri.nome" 
+          name="nome"
+          autocapitalize="off"
+        />
+      </div>
+
+      
+      <div class="col-md-3">
+        <label for="filtroCognome" class="form-label small fw-bold">Cognome</label>
+        <input 
+          type="text" 
+          id="filtroCognome"
+          class="form-control form-control-sm" 
+          placeholder="Cerca cognome..." 
+          [(ngModel)]="filtri.cognome" 
+          name="cognome"
+          autocapitalize="off"
+        />
+      </div>
+
+      
+      <div class="col-md-3">
+        <label for="filtroEmail" class="form-label small fw-bold">E-mail</label>
+        <input 
+          type="text" 
+          id="filtroEmail"
+          class="form-control form-control-sm" 
+          placeholder="Cerca email..." 
+          [(ngModel)]="filtri.email" 
+          name="email"
+          autocapitalize="off"
+        />
+      </div>
+
+     
+      <div class="col-md-3">
+        <label for="filtroRuolo" class="form-label small fw-bold">Ruolo</label>
+        <select 
+          id="filtroRuolo"
+          class="form-select form-select-sm" 
+          [(ngModel)]="filtri.ruolo" 
+          name="ruolo">
+          <option value="">Tutti i ruoli</option>
+          <option value="admin">Admin</option>
+          <option value="customer">customer</option>
+        </select>
+      </div>
+
+      <div class="col-12 d-flex gap-2 justify-content-end mt-3">
+        <button type="submit" class="btn btn-primary btn-sm">Filtra</button>
+        <button type="button" class="btn btn-outline-secondary btn-sm" (click)="onReset()">Reset</button>
+      </div>
+    </form>
+  </div>
+
+
+  <app-generic-table 
+    [columns]="columns" 
+    [data]="row">
+  </app-generic-table>
 </div>
