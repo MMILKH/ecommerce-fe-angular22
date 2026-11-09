@@ -41,7 +41,7 @@ private adminService = inject( AdminServices);
   
 
   ngOnInit(): void {
-    if (this.authService.currentUser()?.ruolo==="admin"){
+    if (this.authService.currentUser()?.ruolo.nome==="admin"){
 
 
     this.route.queryParamMap.subscribe(params =>{

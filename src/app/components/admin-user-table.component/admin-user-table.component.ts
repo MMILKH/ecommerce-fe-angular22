@@ -40,7 +40,7 @@ private adminService = inject( AdminServices);
   };
 
   ngOnInit(): void {
-    if (this.authService.currentUser()?.ruolo==="admin"){
+    if (this.authService.currentUser()?.ruolo.nome==="admin"){
 
 
     this.route.queryParamMap.subscribe(params =>{
@@ -50,13 +50,16 @@ private adminService = inject( AdminServices);
       this.filtri.ruolo=params.get('ruolo') || '';
       this.adminService.getUser(this.filtri).subscribe({
       
-      next: (response)=>{
-        this.row = response;
-        this.cdr.detectChanges();
-      },
-      error: (err)=>console.error('non è stato possibile recuperare gli utenti',err)
-      
-    });
+      next: (response) => {
+          this.row = response.map((user: any) => ({
+            ...user,
+            ruolo: typeof user.ruolo === 'object' ? user.ruolo?.nome : user.ruolo
+          }));
+          this.cdr.detectChanges();
+        },
+        error: (err) => console.error('non è stato possibile recuperare gli utenti', err)
+      });
+    
     }
 
     )

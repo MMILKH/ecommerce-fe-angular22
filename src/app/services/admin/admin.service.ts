@@ -6,6 +6,7 @@ import { AuthService } from '../user/login.service';
 import { ProdottoDto } from '../../models/prodotto.model';
 import { FiltroUtente } from '../../models/filtroUtente.model';
 import { FiltroProdotto } from '../../models/filtroProdotto.model';
+import { environment } from '../../../env';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,7 @@ import { FiltroProdotto } from '../../models/filtroProdotto.model';
 
 export class AdminServices {
     private http = inject(HttpClient);
-    private urlUser = 'http://localhost:3000/users';
+    private urlUser = `${environment.apiUrl}/user/admin`;
     private urlProducts = 'http://localhost:3000/products';
     
 

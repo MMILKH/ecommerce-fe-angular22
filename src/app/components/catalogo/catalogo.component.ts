@@ -54,22 +54,26 @@ export class CatalogoComponent implements OnInit {
   
 
   
-  onAggiungiAlCarrello(data:{prodotto: ProdottoDto; quantita:number}): void {
+  onAggiungiAlCarrello(data: { prodotto: ProdottoDto; quantita: number }): void {
+  const currentUser = this.authService.currentUser();
+  
+  if (!currentUser) {
+    this.router.navigate(['/user/login']);
+    return;
+  }
 
-    const rigaNew : RigaCarrelloDto = {
-      prodotto: data.prodotto,
-      quantita: data.quantita
-    }
+  const rigaNew: RigaCarrelloDto = {
+    prodotto: data.prodotto,
+    quantita: data.quantita
+  };
 
-    this.carrelloService.addFromcatalog(rigaNew ,this.authService.currentUser()!.id).subscribe({
-      next: (rigaCarrello) => {
-      console.log('Aggiunta la riga con successo :', rigaCarrello);
+  this.carrelloService.addFromCatalog(rigaNew, currentUser.id).subscribe({
+    next: (rigaSalvata) => {
+      console.log('Prodotto aggiunto al carrello con successo:', rigaSalvata);
     },
     error: (err) => {
-      console.error('Errore durante la registrazione:', err);
-      this.errorMessage = "Errore non è stato possibile registrare l'utente";
+      console.error('Errore durante l\'aggiunta al carrello:', err);
     }
-
-    
-})
-}}
+  });
+}
+}

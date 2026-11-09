@@ -4,6 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterService } from '../../services/user/register.service';
 import { RegisterRequestDto } from '../../models/registerRequest.model';
+import { ChangeDetectorRef } from '@angular/core';
+
+
 
 @Component({
   selector: 'app-register',
@@ -14,32 +17,64 @@ import { RegisterRequestDto } from '../../models/registerRequest.model';
   ],
   templateUrl: './register.component.html',
 })
+
+
 export class RegisterComponent {
   private registerService=inject(RegisterService);
   private router = inject(Router);
+  private cdr = inject(ChangeDetectorRef);
 
 registerData: RegisterRequestDto = {
 
     email: '',
     password: '',
+    passwordConf: '',
     nome:'',
-    cognome:''
+    cognome:'',
+    numero:'',
+    indirizzo: ''
 
   };
 
-    errorMessage: string = '';
-    onSubmit(): void {
-    this.errorMessage = '';
-    this.registerService.register(this.registerData).subscribe({
-      next: (userCreato) => {
-      console.log('Utente registrato con successo su db.json:', userCreato);
-      this.router.navigate(['/login']);
-    },
-    error: (err) => {
-      console.error('Errore durante la registrazione:', err);
-      this.errorMessage = "Errore non è stato possibile registrare l'utente";
-    }
-  });
+    errorMessages: string[] = [];
+   onSubmit(): void {
+    this.errorMessages = [];
 
-}
+    
+    if (this.registerData.password !== this.registerData.passwordConf) {
+      this.errorMessages.push('Le password non coincidono.');
+      return;
+    }
+
+    this.registerService.register(this.registerData).subscribe({
+      next: (res) => {
+        console.log('Registrazione avvenuta con successo:', res);
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error('Errore durante la registrazione:', err);
+
+        let errorObj = err.error
+        if (typeof errorObj === 'string') {
+          try {
+            errorObj = JSON.parse(errorObj);
+          } catch (e) {
+      
+            this.errorMessages.push(errorObj);
+            return;
+          }
+        }
+
+        
+        if (typeof errorObj === 'object' && errorObj !== null) {
+         
+          this.errorMessages = Object.values(errorObj);
+        } else {
+          this.errorMessages.push('Errore durante la registrazione. Controlla i dati.');
+        }
+        this.cdr.detectChanges();
+      }
+    });
+  }
+
 }

@@ -2,13 +2,14 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient,HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { ProdottoDto } from '../../models/prodotto.model';
+import { environment } from '../../../env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProdottoService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:3000/products';
+  private url = `${environment.apiUrl}/products/catalog`;
 
  getProdotti(categoria?: string): Observable<ProdottoDto[]> {
 

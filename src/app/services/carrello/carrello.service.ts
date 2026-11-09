@@ -3,6 +3,7 @@ import { HttpClient,HttpParams } from '@angular/common/http';
 import { map, Observable, pipe, switchMap } from 'rxjs';
 import { CarrelloDto } from '../../models/carrello.model';
 import { RigaCarrelloDto } from '../../models/rigaCarrello.model';
+import { environment } from '../../../env';
 
 
 @Injectable({
@@ -10,39 +11,34 @@ import { RigaCarrelloDto } from '../../models/rigaCarrello.model';
 })
 export class CarrelloService {
   private http = inject(HttpClient);
-  private url = 'http://localhost:3000/cart';
+  private url = `${environment.apiUrl}/cart`;
 
 
   
- getcart(userId:string): Observable<CarrelloDto> {
-  const params = new HttpParams().set('userId',userId);
-  return this.http.get<CarrelloDto[]>(this.url,{params}).pipe(
-    map((carrello)=>carrello[0])
-  );
+getCart(userId: number | string): Observable<CarrelloDto> {
+  return this.http.get<CarrelloDto>(`${this.url}/${userId}`);
+}
+
+getRow(cartId: number | string, productId:number| string): Observable<RigaCarrelloDto>{
+  return this.http.get<RigaCarrelloDto>(`${this.url}/${cartId}/${productId}`)
+}
+
+updateRowQuantity(rowId: number | string, newRow: RigaCarrelloDto): Observable<RigaCarrelloDto>{
+  return this.http.patch<RigaCarrelloDto>(`${this.url}/${rowId}`,newRow)
 
 }
-  addFromcatalog(data: RigaCarrelloDto, userId: string): Observable<CarrelloDto> {
-  
-  return this.getcart(userId).pipe(
-    switchMap((carrello) => {
-     
-      const rigaEsistente = carrello.righe.find(r => String (r.prodotto.id) === String(data.prodotto.id));
 
-      if (rigaEsistente) {
-        
-        rigaEsistente.quantita += data.quantita;
-      } else {
-      
-        const nuovaRiga: RigaCarrelloDto = {
-          id : Date.now(),
-          prodotto: data.prodotto,
-          quantita: data.quantita
-        };
-        carrello.righe.push(nuovaRiga);
-      }
-      return this.http.put<CarrelloDto>(`${this.url}/${carrello.id}`, carrello);
-    })
-  );
+deleteRow(rowId: number | string): Observable<void> {
+  return this.http.delete<void>(`${this.url}/${rowId}`);
 }
+
+
+  addFromCatalog(data: RigaCarrelloDto, userId: number | string): Observable<RigaCarrelloDto> {
+    return this.getCart(userId).pipe(
+      switchMap((carrello) => 
+        this.http.post<RigaCarrelloDto>(`${this.url}/${carrello.id}/add`, data)
+      )
+    );
+  }
 
 }

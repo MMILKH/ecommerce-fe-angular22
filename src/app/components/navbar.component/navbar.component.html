@@ -17,7 +17,7 @@
               Accedi
             </a>
           }
-          @if (authService.currentUser()?.ruolo === "admin"){
+          @if (authService.currentUser()?.ruolo.nome === "admin"){
             <a class="btn btn-outline-light btn-sm mx-3" routerLink="/admin/user">
                admin
             </a>

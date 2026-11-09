@@ -3,25 +3,21 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { LoginRequest } from '../../models/loginRequest.model';
 import { User } from '../../models/user.model';
+import { environment } from '../../../env';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:3000/users';
+  private apiUrl = `${environment.apiUrl}/user`;
   private currentUserSignal = signal<User | null>(this.getUserFromStorage());
   currentUser = this.currentUserSignal.asReadonly();
-  login(credentials: LoginRequest): Observable<User[]> {
-    const emailPulita = credentials.email.trim();
-    const passwordPulita = credentials.password.trim();
-    return this.http.get<User[]>(
-      `${this.apiUrl}?email=${emailPulita}&password=${passwordPulita}`
-    ).pipe(
-      tap((utenti) => {
-        if (utenti.length > 0) {
-          this.setCurrentUser(utenti[0]);
-        }
+  login(credentials: LoginRequest): Observable<User> {
+  
+    return this.http.post <User> (`${this.apiUrl}/login`, credentials).pipe(
+      tap((utente) => {
+          this.setCurrentUser(utente);
       })
     );
   }

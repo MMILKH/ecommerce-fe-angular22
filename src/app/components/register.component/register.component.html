@@ -45,6 +45,30 @@
         </div>
 
 
+        <div class="mb-3">
+          <label class="form-label" for="numero">numero</label>
+          <input
+            class="form-control"
+            id="numero"
+            name="numero"
+            [(ngModel)]="registerData.numero"
+            required
+          />
+        </div>
+
+
+
+        <div class="mb-3">
+          <label class="form-label" for="indrizzo">indrizzo</label>
+          <input
+            class="form-control"
+            id="indirizzo"
+            name="indirizzo"
+            [(ngModel)]="registerData.indirizzo"
+            required
+          />
+        </div>
+
 
         
         <div class="mb-3">
@@ -55,6 +79,20 @@
             id="password"
             name="password"
             [(ngModel)]="registerData.password"
+            autocapitalize="off"
+            autocomplete="off"
+            required
+          />
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="passwordConf">Ripeti la Password</label>
+          <input
+            class="form-control"
+            type="password"
+            id="passwordConf"
+            name="passwordConf"
+            [(ngModel)]="registerData.passwordConf"
             autocapitalize="off"
             autocomplete="off"
             required
@@ -72,11 +110,19 @@
         </div>
       </form>
 
-      @if (errorMessage) {
-        <div class="alert alert-danger mt-3 mb-0 py-2 small" role="alert">
-          {{ errorMessage }}
-        </div>
-      }
+     @if (errorMessages.length > 0) {
+  <div class="alert alert-danger" role="alert">
+    @if (errorMessages.length === 1) {
+      <span>{{ errorMessages[0] }}</span>
+    } @else {
+      <ul class="mb-0 ps-3">
+        @for (msg of errorMessages; track $index) {
+          <li>{{ msg }}</li>
+        }
+      </ul>
+    }
+  </div>
+}
 
     </div>
   </div>
