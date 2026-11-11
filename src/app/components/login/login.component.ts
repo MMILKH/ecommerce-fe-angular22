@@ -26,17 +26,16 @@ export class LoginComponent {
   };
 
   errorMessage: string = '';
-
-
   onSubmit(): void {
+
     this.errorMessage = '';
 
     this.authService.login(this.loginData).subscribe({
-      next: (utente) => {
-        if (utente) {
-          console.log('Login effettuato con successo:', utente);
+      next: (response) => {
+        if (response.token) {
+          console.log('Login effettuato con successo. Token salvato.');
           
-          if (utente.ruolo.nome === 'admin') {
+          if (response.utente.ruolo!.nome === 'admin') {
             this.router.navigate(['/admin/user']);
           } else {
             this.router.navigate(['/products/catalog']);
@@ -44,11 +43,11 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        console.error('Errore nella chiamata:', err);
+        console.error('Errore nella chiamata di login:', err);
         if (err.status === 401 || err.status === 400) {
           this.errorMessage = 'Email o password errate.';
         } else {
-          this.errorMessage = 'Impossibile effettuare il login. Riprova più tardi.';
+          this.errorMessage = 'Impossibile effettuare il login, problema interno';
         }
         this.cdr.detectChanges();
       }

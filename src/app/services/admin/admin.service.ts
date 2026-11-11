@@ -17,7 +17,7 @@ import { environment } from '../../../env';
 
 export class AdminServices {
     private http = inject(HttpClient);
-    private urlUser = `${environment.apiUrl}/user/admin`;
+    private urlUser = `${environment.apiUrl}/admin/user`;
     private urlProducts = 'http://localhost:3000/products';
     
 
