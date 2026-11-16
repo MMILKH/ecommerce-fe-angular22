@@ -1,10 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; 
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { RegisterService } from '../../services/user/register.service';
 import { RegisterRequestDto } from '../../models/registerRequest.model';
 import { ChangeDetectorRef } from '@angular/core';
+
 
 
 
@@ -13,7 +14,8 @@ import { ChangeDetectorRef } from '@angular/core';
   standalone: true,
   imports: [
     CommonModule, 
-    FormsModule 
+    FormsModule, 
+    RouterLink
   ],
   templateUrl: './register.component.html',
 })
@@ -49,7 +51,7 @@ registerData: RegisterRequestDto = {
     this.registerService.register(this.registerData).subscribe({
       next: (res) => {
         console.log('Registrazione avvenuta con successo:', res);
-        this.router.navigate(['/login']);
+        this.router.navigate(['/products/catalog']);
       },
       error: (err) => {
         console.error('Errore durante la registrazione:', err);

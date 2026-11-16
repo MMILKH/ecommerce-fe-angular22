@@ -52,6 +52,30 @@
           autocapitalize="off"
         />
       </div>
+      <div class="col-md-3">
+        <label for="filtroelements" class="form-label small fw-bold">Numero di elementi </label>
+        <input 
+          type="number" 
+          id="filtroelements"
+          class="form-control form-control-sm" 
+          placeholder="Cerca elements..." 
+          [(ngModel)]="filtri.elements" 
+          name="elements"
+          autocapitalize="off"
+        />
+      </div>
+      <div class="col-md-3">
+  <label for="filtrosort" class="form-label small fw-bold">Ordinamento</label>
+  <select 
+    id="filtrosort" 
+    class="form-select form-select-sm" 
+    [(ngModel)]="filtri.sort" 
+    name="sort"
+>
+      <option value="asc">Ascendente</option>
+      <option value="desc">Discendente</option>
+  </select>
+</div>
 
 
       <div class="col-12 d-flex gap-2 justify-content-end mt-3">
@@ -60,5 +84,74 @@
       </div>
     </form>
   </div>
-<app-generic-table [data]="row" [columns]="columns"></app-generic-table>
+<app-generic-table
+ [data]="row" 
+ [columns]="columns"
+ (edit)="onEditProduct($event)"
+ (delete)="onDeleteProduct($event)">
+ </app-generic-table>
 </div>
+<div class="d-flex justify-content-between align-items-center mt-3 p-2 bg-white rounded shadow-sm">
+  <button 
+    type="button"
+    class="btn btn-outline-dark btn-sm" 
+    [disabled]="(filtri.page) === 0" 
+    (click)="cambiaPagina((filtri.page) - 1)">
+    &laquo; Precedente
+  </button>
+  
+  <span class="small fw-bold text-secondary">
+    Pagina {{ (filtri.page) + 1 }} di {{ totalPages > 0 ? totalPages : 1 }}
+  </span>
+
+  <button 
+    type="button"
+    class="btn btn-outline-dark btn-sm" 
+    [disabled]="(filtri.page) + 1 >= totalPages" 
+    (click)="cambiaPagina((filtri.page) + 1)">
+    Successivo &raquo;
+  </button>
+</div>
+
+@if (isModalOpen) {
+  <div class="modal show d-block" tabindex="-1">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modifica Prodotto</h5>
+          <button type="button" class="btn-close" (click)="chiudiModale()"></button>
+        </div>
+        
+        <form [formGroup]="prodottoForm" (ngSubmit)="onSubmitModifica()">
+          <div class="modal-body">
+            
+            <div class="mb-3">
+              <label class="form-label">Nome</label>
+              <input type="text" class="form-control" formControlName="nome">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Categoria</label>
+              <input type="text" class="form-control" formControlName="categoria">
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Descrizione Breve</label>
+              <textarea class="form-control" formControlName="descrizioneBreve"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Prezzo</label>
+              <input type="number" class="form-control" formControlName="prezzo" step="0.01">
+            </div>
+
+          </div>
+          <div class="modal-footer">
+            <button type="submit" class="btn btn-primary" [disabled]="prodottoForm.invalid">Salva Modifiche</button>
+          </div>
+        </form>
+
+      </div>
+    </div>
+  </div>
+}

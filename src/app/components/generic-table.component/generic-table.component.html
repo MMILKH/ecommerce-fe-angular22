@@ -5,6 +5,7 @@
         @for (col of columns; track col.key) {
           <th>{{ col.label }}</th>
         }
+        <th class="text-end">Azioni</th>
       </tr>
     </thead>
     <tbody>
@@ -13,6 +14,14 @@
           @for (col of columns; track col.key) {
             <td>{{ row[col.key] }}</td>
           }
+          <td class="text-end">
+            <button class="btn btn-sm btn-outline-primary me-2" (click)="onEdit(row)" title="Modifica">
+              Modifica
+            </button>
+            <button class="btn btn-sm btn-outline-danger" (click)="onDelete(row)" title="Elimina">
+              Elimina
+            </button>
+          </td>
         </tr>
       }
     </tbody>

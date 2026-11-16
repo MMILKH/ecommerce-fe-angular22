@@ -4,4 +4,7 @@ export interface FiltroProdotto {
   descrizioneBreve?: string;
   prezzo?: number;
   categoria?: string;
+  page: number;
+  elements: number;
+  sort: string;
 }

@@ -1,7 +1,7 @@
 import { RuoloDto } from "./ruoloDto.model";
 
 export interface User {
-  id: string;
+  id: number;
   email: string;
   nome: string;
   cognome: string;

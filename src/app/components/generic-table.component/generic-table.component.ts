@@ -1,4 +1,4 @@
-import { Component,Input } from '@angular/core';
+import { Component,EventEmitter,Input, Output } from '@angular/core';
 
 @Component({
   imports: [],
@@ -10,4 +10,16 @@ import { Component,Input } from '@angular/core';
 export class GenericTableComponent<T> {
   @Input() data: T[] = []; 
   @Input({required: true}) columns: { key: keyof T, label: string }[] = []; 
+
+
+  @Output() edit = new EventEmitter<T>();
+  @Output() delete = new EventEmitter<T>();
+
+  onEdit(row: T) {
+    this.edit.emit(row);
+  }
+
+  onDelete(row: T) {
+    this.delete.emit(row);
+  }
 }

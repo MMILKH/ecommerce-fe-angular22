@@ -18,7 +18,7 @@ import { environment } from '../../../env';
 export class AdminServices {
     private http = inject(HttpClient);
     private urlUser = `${environment.apiUrl}/admin/user`;
-    private urlProducts = 'http://localhost:3000/products';
+    private urlProducts = `${environment.apiUrl}/admin/products`;
     
 
 
@@ -41,7 +41,7 @@ export class AdminServices {
 }
 
 
-    getProducts(filtri: FiltroProdotto): Observable<ProdottoDto[]>{
+    getProducts(filtri: FiltroProdotto): Observable<any>{
         let params: any = {};
 
     if (filtri.nome?.trim()){ 
@@ -55,9 +55,36 @@ export class AdminServices {
   }
 
     if (filtri.categoria?.trim()){
-       params['categoria'] = filtri.categoria.trim();}
+       params['categoria'] = filtri.categoria.trim();
+  }
   
+  params['page'] = filtri.page ?? 0;
+  params['elements'] = filtri.elements ?? 10;
+  params['sort'] = filtri.sort ?? 'asc';
 
     return this.http.get<ProdottoDto[]>(`${this.urlProducts}`, { params });
     }
+
+    
+    deleteProduct(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.urlProducts}/${id}`);
+    }
+
+    
+    updateProduct(id: number, prodotto: ProdottoDto): Observable<ProdottoDto> {
+        return this.http.patch<ProdottoDto>(`${this.urlProducts}/${id}`, prodotto);
+    }
+
+
+    updateUser(id: number, user: User): Observable<User> {
+        return this.http.patch<User>(`${this.urlUser}/${id}`, user);
+    }
+
+    
+    deleteUser(id: number): Observable<void> {
+        return this.http.delete<void>(`${this.urlUser}/${id}`);
+    }
+
+
+
 }
